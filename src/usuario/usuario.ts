@@ -11,6 +11,7 @@ export class Usuario {
     constructor(id:string,
         nombre:string,
         apellido:string,
+        email:string,
         password:string,
         nombreMascota:string,
         especieMascota:string,
@@ -20,6 +21,7 @@ export class Usuario {
             this.id=id;
             this.nombre=nombre;
             this.apellido=apellido;
+            this.email=email;
             this.password=password;
             this.nombreMascota=nombreMascota;
             this.especieMascota=especieMascota;
