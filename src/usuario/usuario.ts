@@ -1,12 +1,12 @@
 export class Usuario {
-    id:string;
-    nombre:string;
-    apellido:string;
-    email:string;
-    password:string;
-    nombreMascota:string;
-    especieMascota:string;
-    libretaSanitaria:string;
+    readonly id:string;
+    readonly nombre:string;
+    readonly apellido:string;
+    readonly email:string;
+    readonly password:string;
+    readonly nombreMascota:string;
+    readonly especieMascota:string;
+    readonly libretaSanitaria:string;
 
     constructor(id:string,
         nombre:string,

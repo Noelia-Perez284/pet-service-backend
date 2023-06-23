@@ -56,6 +56,11 @@ export class UsuarioService {
         }
     ];
 
+
+    getUsuarios(): Usuario[] {
+      return this.usuarios;
+  }
+
     validateUser(email: string, password: string): boolean {
         const user = this.usuarios.find((u) => u.email === email);
         
