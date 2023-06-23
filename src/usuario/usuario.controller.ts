@@ -2,26 +2,30 @@ import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { Usuario } from './usuario';
 import { UsuarioDto } from 'src/dto/usuarioDto';
+import { UserDto } from 'src/dto/userDto';
 
 @Controller('usuario')
 export class UsuarioController {
     constructor(private readonly usuarioService: UsuarioService) { }
 
 
-    @Get()
-    getVehiculos(): Usuario[] {
+    @Get("listado")
+    getUsuario(): Usuario[] {
         return this.usuarioService.getUsuarios()
     }
 
     @Post()
-    postPelicula(@Body() usuarioDto: UsuarioDto) {
+    postUsuario(@Body() usuarioDto: UsuarioDto) {
         return this.usuarioService.createUsuario(usuarioDto);
     }
 
+
+    // TODO: Implementar validacion con un dto
     @Post('login')
-    login(@Body() body: { email: string; password: string }) {
+    login(@Body() loginDto: UserDto) {
+        const { email, password } = loginDto;
         try {
-            const loginOk = this.usuarioService.validateUser(body.email, body.password);
+            const loginOk = this.usuarioService.validateUser(email, password);
             if (loginOk) {
                 return {
                     Estado: HttpStatus.OK,

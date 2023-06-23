@@ -86,7 +86,7 @@ export class UsuarioService {
         return true;
       }
     }
-    catch (error ) {
+    catch (error) {
       throw new HttpException('Ocurrió un error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return false;
