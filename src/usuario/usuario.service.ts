@@ -31,7 +31,7 @@ export class UsuarioService {
       nombre: "Ana",
       apellido: "García",
       email: "ana@example.com",
-      password: "qwerty",
+      password: "qwerty123",
       nombreMascota: "Pelusa",
       especieMascota: "Gato",
       libretaSanitaria: "456789123"
@@ -51,7 +51,7 @@ export class UsuarioService {
       nombre: "Luisa",
       apellido: "Martínez",
       email: "luisa@example.com",
-      password: "abcdef",
+      password: "abcdef123",
       nombreMascota: "Nala",
       especieMascota: "Gato",
       libretaSanitaria: "321654987"

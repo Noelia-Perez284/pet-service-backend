@@ -6,6 +6,7 @@ import { UserDto } from 'src/dto/userDto';
 
 @Controller('usuario')
 export class UsuarioController {
+
     constructor(private readonly usuarioService: UsuarioService) { }
 
 
@@ -15,12 +16,10 @@ export class UsuarioController {
     }
 
     @Post()
-    postUsuario(@Body() usuarioDto: UsuarioDto) {
+    postCreateUsuario(@Body() usuarioDto: UsuarioDto) {
         return this.usuarioService.createUsuario(usuarioDto);
     }
 
-
-    // TODO: Implementar validacion con un dto
     @Post('login')
     login(@Body() loginDto: UserDto) {
         const { email, password } = loginDto;
@@ -36,7 +35,7 @@ export class UsuarioController {
                 return {
                     Estado: HttpStatus.OK,
                     Existe: false,
-                    Mensaje: "Inicio de sesión fallido",
+                    Mensaje: "Usuario o contraseña invalidos",
                 };
             }
 
