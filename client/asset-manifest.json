@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.22490b21.css",
-    "main.js": "/static/js/main.20787750.js",
+    "main.css": "/static/css/main.993b2db8.css",
+    "main.js": "/static/js/main.4be55948.js",
     "static/media/img13.jpg": "/static/media/img13.dd7083c8b528477f5b41.jpg",
     "static/media/img12.jpg": "/static/media/img12.0a8e898b9ec44b70e66f.jpg",
     "static/media/img10.jpg": "/static/media/img10.573c45ff0de2b49da440.jpg",
@@ -17,15 +17,16 @@
     "static/media/img11.jpg": "/static/media/img11.627290342dcc7f51bbc2.jpg",
     "static/media/img2.jpg": "/static/media/img2.03393be43ffa6039960a.jpg",
     "static/media/img5.jpg": "/static/media/img5.42a845aa65142d1d2485.jpg",
+    "static/media/PetservicePata.png": "/static/media/PetservicePata.acc4f5f85feda1b40525.png",
     "static/media/img14.jpg": "/static/media/img14.4fd8736855e9f455e212.jpg",
     "static/media/acceso.png": "/static/media/acceso.f0d7bc030ab222b84f44.png",
     "static/media/instagram.png": "/static/media/instagram.75e0546a6b5abe4c0506.png",
     "index.html": "/index.html",
-    "main.22490b21.css.map": "/static/css/main.22490b21.css.map",
-    "main.20787750.js.map": "/static/js/main.20787750.js.map"
+    "main.993b2db8.css.map": "/static/css/main.993b2db8.css.map",
+    "main.4be55948.js.map": "/static/js/main.4be55948.js.map"
   },
   "entrypoints": [
-    "static/css/main.22490b21.css",
-    "static/js/main.20787750.js"
+    "static/css/main.993b2db8.css",
+    "static/js/main.4be55948.js"
   ]
 }
