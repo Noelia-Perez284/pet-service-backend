@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Categoria } from "src/categoria/entities/categoria.entity";
+import { Provincia } from "src/provincia/entities/provincia.entity";
+import { ValoracionServicio } from "src/valoracion-servicio/entities/valoracion-servicio.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity('tarjetaServicio')
@@ -19,6 +22,17 @@ export class TarjetaServicio {
     descripcion:string;
     @Column()
     contacto:string;
+
+    @ManyToOne(type => Categoria, categoria => categoria.tarjetasServicio)
+    @JoinColumn({ name: 'idCategoria' })
+    categoria: Categoria;
+
+    @ManyToOne(type => Provincia, provincia => provincia.tarjetasServicio)
+    @JoinColumn({ name: 'idProvincia' })
+    provincia: Provincia;
+
+    @OneToMany(type => ValoracionServicio, valoracion => valoracion.tarjetaServicio)
+    valoraciones: ValoracionServicio[];
 
     constructor(
         valoracion:number,
