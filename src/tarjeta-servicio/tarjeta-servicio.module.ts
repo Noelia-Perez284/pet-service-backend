@@ -3,12 +3,12 @@ import { TarjetaServicioService } from './tarjeta-servicio.service';
 import { TarjetaServicioController } from './tarjeta-servicio.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TarjetaServicio } from './entities/tarjeta-servicio.entity';
-import { CategoriaModule } from 'src/categoria/categoria.module';
-import { ProvinciaModule } from 'src/provincia/provincia.module';
-import { ValoracionServicioModule } from 'src/valoracion-servicio/valoracion-servicio.module';
+import { Categoria } from 'src/categoria/entities/categoria.entity';
+import { Provincia } from 'src/provincia/entities/provincia.entity';
+import { ValoracionServicio } from 'src/valoracion-servicio/entities/valoracion-servicio.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TarjetaServicio]), CategoriaModule, ProvinciaModule, ValoracionServicioModule],
+  imports: [TypeOrmModule.forFeature([TarjetaServicio, Categoria, Provincia, ValoracionServicio])],
   controllers: [TarjetaServicioController],
   providers: [TarjetaServicioService]
 })

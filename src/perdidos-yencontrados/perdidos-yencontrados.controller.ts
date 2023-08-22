@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PerdidosYencontradosService } from './perdidos-yencontrados.service';
+import { PerdidosYencontradoService } from './perdidos-yencontrados.service';
 import { CreatePerdidosYencontradoDto } from './dto/create-perdidos-yencontrado.dto';
 import { UpdatePerdidosYencontradoDto } from './dto/update-perdidos-yencontrado.dto';
 
 @Controller('perdidos-yencontrados')
 export class PerdidosYencontradosController {
-  constructor(private readonly perdidosYencontradosService: PerdidosYencontradosService) {}
+  constructor(private readonly perdidosYencontradosService: PerdidosYencontradoService) {}
 
   @Post()
   create(@Body() createPerdidosYencontradoDto: CreatePerdidosYencontradoDto) {

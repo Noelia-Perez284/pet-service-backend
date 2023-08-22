@@ -13,7 +13,7 @@ export class PerdidosYencontrado {
     @Column()
     descripcion:string;
     @Column()
-    conacto:string;
+    contacto:string;
     @Column()
     ubicacion:string;
 
@@ -25,7 +25,7 @@ export class PerdidosYencontrado {
         this.nombre=nombre;
         this.tipo=tipo;
         this.descripcion=descripcion;
-        this.conacto=contacto;
+        this.contacto=contacto;
         this.ubicacion=ubicacion;      
     
     }

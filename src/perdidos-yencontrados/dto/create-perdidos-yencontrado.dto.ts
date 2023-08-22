@@ -2,6 +2,6 @@ export class CreatePerdidosYencontradoDto {
     nombre:string;
     tipo:string;
     descripcion:string;
-    conacto:string;
+    contacto:string;
     ubicacion:string;
 }

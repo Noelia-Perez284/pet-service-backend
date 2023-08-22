@@ -27,7 +27,7 @@ export class Usuario {
     @JoinColumn()
     valoraciones: ValoracionServicio[];
 
-    @OneToMany(type => PerdidosYencontrado, perdidoEncontrado => perdidoEncontrado.conacto)
+    @OneToMany(type => PerdidosYencontrado, perdidoEncontrado => perdidoEncontrado.contacto)
     @JoinColumn()
     perdidosYencontrados: PerdidosYencontrado[];
 
