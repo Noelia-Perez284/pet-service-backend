@@ -8,7 +8,7 @@ import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "t
 export class Usuario {
     @PrimaryGeneratedColumn()
     idUsuario:number;
-    @Column()
+    @Column({unique:true})
     correo:string;
     @Column()
     password:string;

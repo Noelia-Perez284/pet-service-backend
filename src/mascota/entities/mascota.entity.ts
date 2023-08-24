@@ -10,7 +10,7 @@ export class Mascota {
     nombre:string;
     @Column()
     tipo:string;
-    @Column()           
+    @Column({nullable:true})           
     libreta:string;
     @Column()
     foto:string;

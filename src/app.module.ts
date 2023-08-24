@@ -24,7 +24,7 @@ import { CategoriaModule } from './categoria/categoria.module';
       password: 'R$gasali123',
       database: 'petservice',
       entities: ['dist/**/**.entity{.ts,.js}'],
-      synchronize: false,
+      synchronize: true,
     }),
     PerdidosYencontradosModule,
     UsuarioModule,
