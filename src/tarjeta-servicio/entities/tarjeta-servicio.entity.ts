@@ -24,11 +24,11 @@ export class TarjetaServicio {
     contacto:string;
 
     @ManyToOne(type => Categoria, categoria => categoria.tarjetasServicio)
-    @JoinColumn({ name: 'idCategoria' })
+    @JoinColumn(/* { name: 'idCategoria' } */)
     categoria: Categoria;
 
     @ManyToOne(type => Provincia, provincia => provincia.tarjetasServicio)
-    @JoinColumn({ name: 'idProvincia' })
+    @JoinColumn(/* { name: 'idProvincia' } */)
     provincia: Provincia;
 
     @OneToMany(type => ValoracionServicio, valoracion => valoracion.tarjetaServicio)

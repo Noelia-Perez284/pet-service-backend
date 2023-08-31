@@ -12,11 +12,11 @@ export class ValoracionServicio {
     comentario:string;
 
     @ManyToOne(type => TarjetaServicio, tarjetaServicio => tarjetaServicio.valoraciones)
-    @JoinColumn({ name: 'idTarjetaServicio' })
+    @JoinColumn(/* { name: 'idTarjetaServicio' } */)
     tarjetaServicio: TarjetaServicio;
 
     @ManyToOne(type => Usuario, usuario => usuario.valoraciones)
-    @JoinColumn({ name: 'idUsuario' })
+    @JoinColumn(/* { name: 'idUsuario' } */)
     usuario: Usuario;
 
 
