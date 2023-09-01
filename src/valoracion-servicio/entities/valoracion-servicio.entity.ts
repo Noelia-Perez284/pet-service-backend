@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { TarjetaServicio } from "src/tarjeta-servicio/entities/tarjeta-servicio.entity";
 import { Usuario } from "src/usuario/entities/usuario.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
