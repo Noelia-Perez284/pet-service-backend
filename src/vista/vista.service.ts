@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreateVistaDto } from "./dto/create-vista.dto";
 import { UpdateVistaDto } from "./dto/update-vista.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -15,11 +15,19 @@ export class VistaService {
   async findAll(): Promise<datosServicio[]> {
     return this.datosServicioRepository.find();
   }
-}
-/* findOne(id: number) {
-    return `This action returns a #${id} vista`;
+
+  async findByProvincia(nombre_provincia: string) {
+    const p = await this.datosServicioRepository.findBy({
+      nombre_provincia: nombre_provincia,
+    });
+    if (p) return p;
+
+    throw new HttpException("No existe esa provincia", HttpStatus.NOT_FOUND);
   }
 
+ 
+}
+/*
   update(id: number, updateVistaDto: UpdateVistaDto) {
     return `This action updates a #${id} vista`;
   }

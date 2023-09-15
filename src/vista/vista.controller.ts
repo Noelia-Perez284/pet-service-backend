@@ -1,13 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { VistaService } from './vista.service';
-import { CreateVistaDto } from './dto/create-vista.dto';
-import { UpdateVistaDto } from './dto/update-vista.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from "@nestjs/common";
+import { VistaService } from "./vista.service";
+import { CreateVistaDto } from "./dto/create-vista.dto";
+import { UpdateVistaDto } from "./dto/update-vista.dto";
 
-@Controller('vista')
+@Controller("vista")
 export class VistaController {
   constructor(private readonly vistaService: VistaService) {}
 
- /*  @Post()
+  /*  @Post()
   create(@Body() createVistaDto: CreateVistaDto) {
     return this.vistaService.create(createVistaDto);
   } */
@@ -17,11 +25,13 @@ export class VistaController {
     return this.vistaService.findAll();
   }
 
-  /* @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.vistaService.findOne(+id);
+  @Get(":nombre_provincia")
+  findBy(@Param("nombre_provincia") nombre_provincia: string) {
+    return this.vistaService.findByProvincia(nombre_provincia);
   }
 
+ 
+  /*
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateVistaDto: UpdateVistaDto) {
     return this.vistaService.update(+id, updateVistaDto);
