@@ -17,15 +17,19 @@ export class VistaService {
   }
 
   async findByProvincia(nombre_provincia: string) {
-    const p = await this.datosServicioRepository.findBy({
-      nombre_provincia: nombre_provincia,
+    const p = await this.datosServicioRepository.find({
+      where:{
+        nombre_provincia: nombre_provincia,
+      },
+      order:{
+        valoracion: "DESC",
+      },
+      
     });
     if (p) return p;
 
     throw new HttpException("No existe esa provincia", HttpStatus.NOT_FOUND);
   }
-
- 
 }
 /*
   update(id: number, updateVistaDto: UpdateVistaDto) {
