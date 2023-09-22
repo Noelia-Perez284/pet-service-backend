@@ -33,17 +33,10 @@ export class TarjetaServicioController {
     return this.tarjetaServicioService.findOne(+id);
   }
 
-
-
-
-
-
-
-
-
-
-
-
+  @Get(":servicio")
+  findByCategory(@Param("idCategoria", "idProvincia") params: string[]) {
+    return this.tarjetaServicioService.findByCategory();
+  }
 
   @Patch(":id")
   update(

@@ -8,6 +8,7 @@ import { TarjetaServicio } from 'src/tarjeta-servicio/entities/tarjeta-servicio.
 @Module({
   imports: [TypeOrmModule.forFeature([Categoria, TarjetaServicio])],
   controllers: [CategoriaController],
-  providers: [CategoriaService]
+  providers: [CategoriaService],
+  exports: [CategoriaService],
 })
 export class CategoriaModule {}
