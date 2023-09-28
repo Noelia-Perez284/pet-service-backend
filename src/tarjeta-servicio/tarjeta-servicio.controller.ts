@@ -11,6 +11,7 @@ import { TarjetaServicioService } from "./tarjeta-servicio.service";
 import { CreateTarjetaServicioDto } from "./dto/create-tarjeta-servicio.dto";
 import { UpdateTarjetaServicioDto } from "./dto/update-tarjeta-servicio.dto";
 import { Provincia } from "src/provincia/entities/provincia.entity";
+import { ProvinciaService } from "src/provincia/provincia.service";
 
 @Controller("tarjeta-servicio")
 export class TarjetaServicioController {
@@ -34,7 +35,7 @@ export class TarjetaServicioController {
   }
 
   @Get(":servicio")
-  findByCategory(@Param("idCategoria", "idProvincia") params: string[]) {
+  findByCategory(@Param(/* "idCategoria", */ "idProvincia") id: string) {
     return this.tarjetaServicioService.findByCategory();
   }
 

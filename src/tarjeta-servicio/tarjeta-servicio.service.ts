@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Categoria } from "src/categoria/entities/categoria.entity";
 import { Provincia } from "src/provincia/entities/provincia.entity";
+import { ProvinciaService } from "src/provincia/provincia.service";
 
 @Injectable()
 export class TarjetaServicioService {
@@ -14,6 +15,7 @@ export class TarjetaServicioService {
     private readonly tarjetaServicioRepository: Repository<TarjetaServicio>,
     private categoriaRepository: Repository<Categoria>,
     private provinciaRepository: Repository<Provincia>,
+    private provinciaService: ProvinciaService
   ) {}
 
   create(tarjetaServicioDto: CreateTarjetaServicioDto) {
@@ -22,7 +24,7 @@ export class TarjetaServicioService {
   }
 
   findAll(): Promise<TarjetaServicio[]> {
-    return this.tarjetaServicioRepository.find();
+    return this.tarjetaServicioRepository.find({ relations: ["provincia"] });
   }
 
   async findOne(id: number) {
@@ -37,15 +39,21 @@ export class TarjetaServicioService {
     );
   }
 
-  async findByCategory(idCategoria: number, idProvincia: number) {
-    const categoria = await this.categoriaRepository.findOneBy({
-      idCategoria: idCategoria,
-    });
-    const provincia = await this.provinciaRepository.findOneBy({
-      idProvincia: idProvincia,
+  async findByCategory(idCategoria: number, id_Provincia: number) {
+    return this.tarjetaServicioRepository.findBy({
+      where: {
+        idCategoria: idCategoria,
+      },
+      relations: [Provincia],
     });
 
-    const servicio = await this.tarjetaServicioRepository.find({
+    /*  const categoria = await this.categoriaRepository.findOneBy({
+      idCategoria: idCategoria,
+    }); */
+    /*  const provincia = await this.provinciaService.findOne(idProvincia);
+    return provincia; */
+
+    /* const servicio = await this.tarjetaServicioRepository.find({
       where: {
         idCategoria: categoria.idCategoria,
         idProvincia: provincia.idProvincia,
@@ -59,7 +67,7 @@ export class TarjetaServicioService {
     throw new HttpException(
       "No se encontro ese servicio",
       HttpStatus.NOT_FOUND
-    );
+    ); */
   }
 
   async remove(id: number) {

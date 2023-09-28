@@ -8,8 +8,16 @@ import { Provincia } from 'src/provincia/entities/provincia.entity';
 import { ValoracionServicio } from 'src/valoracion-servicio/entities/valoracion-servicio.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TarjetaServicio, Categoria, Provincia, ValoracionServicio])],
+  imports: [
+    TypeOrmModule.forFeature([
+      TarjetaServicio,
+      Categoria,
+      Provincia,
+      ValoracionServicio,
+    ]),
+  ],
   controllers: [TarjetaServicioController],
-  providers: [TarjetaServicioService]
+  providers: [TarjetaServicioService],
+  exports: [TarjetaServicioService],
 })
 export class TarjetaServicioModule {}

@@ -1,11 +1,6 @@
 
 {
-  "prettier/prettier": [
-    "error",
-    {
-      "singleQuote": true,
-      "parser": "flow",
-      "semi": false
-    }
-  ]
+  "endOfLine": "auto",
+  "singleQuote": true,
+  "trailingComma": "all"
 }
