@@ -6,95 +6,112 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Categoria } from "src/categoria/entities/categoria.entity";
 import { Provincia } from "src/provincia/entities/provincia.entity";
+import { CategoriaService } from '../categoria/categoria.service';
+import { ProvinciaService } from '../provincia/provincia.service';
+
 
 @Injectable()
 export class TarjetaServicioService {
   constructor(
     @InjectRepository(TarjetaServicio)
     private readonly tarjetaServicioRepository: Repository<TarjetaServicio>,
-    private categoriaRepository: Repository<Categoria>,
-    private provinciaRepository: Repository<Provincia>,
+    private CategoriaService: CategoriaService,
+    private ProvinciaService: ProvinciaService,
   ) {}
 
-  create(tarjetaServicioDto: CreateTarjetaServicioDto) {
-    const c = this.tarjetaServicioRepository.create(tarjetaServicioDto);
-    return this.tarjetaServicioRepository.save(c);
+
+async create (CreateTarjetaServicioDto: CreateTarjetaServicioDto){
+
+  const categoria = await this.CategoriaService.findOne (CreateTarjetaServicioDto.idCategoria);
+  const provincia = await this.ProvinciaService.findOne (CreateTarjetaServicioDto.idProvincia)
+
+  if (!categoria)
+  return new HttpException ('categoria no encontrada', HttpStatus.NOT_FOUND);
+
+  if (!provincia) {
+    return new HttpException('Provincia no encontrada', HttpStatus.NOT_FOUND);
   }
 
-  findAll(): Promise<TarjetaServicio[]> {
-    return this.tarjetaServicioRepository.find();
+const tarjetaServicio = this.tarjetaServicioRepository.create(CreateTarjetaServicioDto);
+tarjetaServicio.categoria = categoria;
+tarjetaServicio.provincia = provincia;
+return this.tarjetaServicioRepository.save(tarjetaServicio)
+}
+
+findAll() {
+  return this.tarjetaServicioRepository.find({
+    relations: ['categoria', 'provincia']
+  });
+}
+
+findOne(id: number) {
+  return this.tarjetaServicioRepository.findOne({
+    where: {
+      idTarjetaServicio: id
+    },
+    relations: ['categoria', 'provincia']
+  });
+}
+
+
+async findByCategoryAndProvince(idCategoria: number, idProvincia: number) {
+  const categoria = await this.CategoriaService.findOne(idCategoria);
+  const provincia = await this.ProvinciaService.findOne(idProvincia);
+
+  if (!categoria || !provincia) {
+    throw new HttpException('Categoría o provincia no encontrada', HttpStatus.NOT_FOUND);
   }
 
-  async findOne(id: number) {
-    const c = await this.tarjetaServicioRepository.findOneBy({
-      idTarjetaServicio: id,
-    });
-    if (c) return c;
+  const servicios = await this.tarjetaServicioRepository.find({
+    where: {
+      categoria: categoria,
+      provincia: provincia,
+    },
+    order: {
+      valoracion: 'DESC',
+    },
+  });
 
+  if (servicios.length > 0) {
+    return servicios;
+  }
+
+  throw new HttpException('No se encontraron servicios para esta categoría y provincia', HttpStatus.NOT_FOUND);
+}
+
+
+async remove(id: number) {
+  const r = await this.tarjetaServicioRepository.delete(id);
+
+  console.log(
+    `Remove, id: ${id}, result: ${r.affected ? "Eliminado" : "No Eliminado"}`
+  );
+  if (r.affected)
+    return new HttpException(`Remove, id: ${id}`, HttpStatus.OK);
+
+  throw new HttpException(
+    "No existe tarjeta con ese id",
+    HttpStatus.NOT_FOUND
+  );
+}
+async update(id: number, updateTarjetaServicioDto: UpdateTarjetaServicioDto) {
+  await this.findOne(id);
+
+  try {
+    const result = await this.tarjetaServicioRepository.update(
+      { idTarjetaServicio: id },
+      { ...updateTarjetaServicioDto, idTarjetaServicio: id }
+    );
+
+    console.log(`Update, id: ${id}, result: ${result}`);
+
+    return result;
+  } catch (error) {
+    console.log(error);
     throw new HttpException(
-      "No existe una tarjeta con ese id",
-      HttpStatus.NOT_FOUND
+      "no se pudo realizar la operacion",
+      HttpStatus.NOT_IMPLEMENTED
     );
   }
-
-  async findByCategory(idCategoria: number, idProvincia: number) {
-    const categoria = await this.categoriaRepository.findOneBy({
-      idCategoria: idCategoria,
-    });
-    const provincia = await this.provinciaRepository.findOneBy({
-      idProvincia: idProvincia,
-    });
-
-    const servicio = await this.tarjetaServicioRepository.find({
-      where: {
-        idCategoria: categoria.idCategoria,
-        idProvincia: provincia.idProvincia,
-      },
-      order: {
-        valoracion: "DESC",
-      },
-    });
-    if (servicio) return servicio;
-
-    throw new HttpException(
-      "No se encontro ese servicio",
-      HttpStatus.NOT_FOUND
-    );
-  }
-
-  async remove(id: number) {
-    const r = await this.tarjetaServicioRepository.delete(id);
-
-    console.log(
-      `Remove, id: ${id}, result: ${r.affected ? "Eliminado" : "No Eliminado"}`
-    );
-    if (r.affected)
-      return new HttpException(`Remove, id: ${id}`, HttpStatus.OK);
-
-    throw new HttpException(
-      "No existe tarjeta con ese id",
-      HttpStatus.NOT_FOUND
-    );
-  }
-
-  async update(id: number, updateTarjetaServicioDto: UpdateTarjetaServicioDto) {
-    await this.findOne(id);
-
-    try {
-      const result = await this.tarjetaServicioRepository.update(
-        { idTarjetaServicio: id },
-        { ...updateTarjetaServicioDto, idTarjetaServicio: id }
-      );
-
-      console.log(`Update, id: ${id}, result: ${result}`);
-
-      return result;
-    } catch (error) {
-      console.log(error);
-      throw new HttpException(
-        "no se pudo realizar la operacion",
-        HttpStatus.NOT_IMPLEMENTED
-      );
-    }
-  }
+}
 }

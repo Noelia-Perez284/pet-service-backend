@@ -6,5 +6,6 @@ export class CreateTarjetaServicioDto {
     localidad:string;
     descripcion:string;
     contacto:string;
-    
+    idCategoria: number;
+    idProvincia: number;
 }

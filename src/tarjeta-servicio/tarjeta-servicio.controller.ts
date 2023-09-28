@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
+  Query,
 } from "@nestjs/common";
 import { TarjetaServicioService } from "./tarjeta-servicio.service";
 import { CreateTarjetaServicioDto } from "./dto/create-tarjeta-servicio.dto";
@@ -33,9 +35,20 @@ export class TarjetaServicioController {
     return this.tarjetaServicioService.findOne(+id);
   }
 
-  @Get(":servicio")
-  findByCategory(@Param("idCategoria", "idProvincia") params: string[]) {
-    return this.tarjetaServicioService.findByCategory();
+  @Get('categoria/:idCategoria/provincia/:idProvincia')
+  async findByCategoryAndProvince(
+    @Param('idCategoria', ParseIntPipe) idCategoria: number,
+    @Param('idProvincia', ParseIntPipe) idProvincia: number,
+  ) {
+    try {
+      const servicios = await this.tarjetaServicioService.findByCategoryAndProvince(
+        idCategoria,
+        idProvincia,
+      );
+      return { data: servicios, message: 'Servicios encontrados' };
+    } catch (error) {
+      return { error: error.message };
+    }
   }
 
   @Patch(":id")
