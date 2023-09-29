@@ -4,11 +4,18 @@ import { UpdateValoracionServicioDto } from './dto/update-valoracion-servicio.dt
 import { InjectRepository } from '@nestjs/typeorm';
 import { ValoracionServicio } from './entities/valoracion-servicio.entity';
 import { Repository } from 'typeorm';
+import { TarjetaServicioService } from 'src/tarjeta-servicio/tarjeta-servicio.service';
+import { TarjetaServicio } from '../tarjeta-servicio/entities/tarjeta-servicio.entity';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
+import { UsuarioService } from '../usuario/usuario.service';
+
 
 @Injectable()
 export class ValoracionServicioService {constructor(
   @InjectRepository(ValoracionServicio)
   private readonly valoracionServicioRepository: Repository<ValoracionServicio>,
+  private tarjetaServicio: TarjetaServicioService,
+  private usuario: UsuarioService
 ) {}
 
 create(valoracionServicioDto: CreateValoracionServicioDto) {
@@ -18,31 +25,6 @@ create(valoracionServicioDto: CreateValoracionServicioDto) {
 
 findAll(): Promise<ValoracionServicio[]> {
   return this.valoracionServicioRepository.find();
-}
-
-async findOne(id: number) {
-  const c = await this.valoracionServicioRepository.findOneBy({ idValoracionServicio: id });
-  if (c) return c;
-
-  throw new HttpException(
-    'No existe una valoracion con ese id',
-    HttpStatus.NOT_FOUND,
-  );
-}
-
-async remove(id: number) {
-  const r = await this.valoracionServicioRepository.delete(id);
-
-  console.log(
-    `Remove, id: ${id}, result: ${r.affected ? 'Eliminado' : 'No Eliminado'}`,
-  );
-  if (r.affected)
-    return new HttpException(`Remove, id: ${id}`, HttpStatus.OK);
-
-  throw new HttpException(
-    'No existe valoracion con ese id',
-    HttpStatus.NOT_FOUND,
-  );
 }
 
 async update(id: number, updateValoracionServicioDto: UpdateValoracionServicioDto) {
@@ -62,4 +44,38 @@ async update(id: number, updateValoracionServicioDto: UpdateValoracionServicioDt
     throw new HttpException('no se pudo realizar la operacion', HttpStatus.NOT_IMPLEMENTED);
   }
 }
+
+async findOne(idUsuario: number, idTarjetaServicio: number, valoracionServicioDto: CreateValoracionServicioDto, UpdateValoracionServicioDto: UpdateValoracionServicioDto) {
+  const tarjetaServicio = await this.tarjetaServicio.findOne(idTarjetaServicio)
+  const usuario = await this.usuario.findOne(idUsuario)
+  return this.valoracionServicioRepository.findOne({
+    where: {
+      idUsuario: usuario,
+      idTarjetaServicio: tarjetaServicio
+    }
+  })
+
+ 
+
+  return this.valoracionServicioRepository.findOne({
+    where: {
+      idValoracionServicio: id
+    },
+    relations: ['tarjeta-servicio']
+  });
+
+}
+async remove(id: number) {
+  const r = await this.valoracionServicioRepository.delete(id);
+
+  console.log(
+    `Remove, id: ${id}, result: ${r.affected ? 'Eliminado' : 'No Eliminado'}`,
+  );
+  if (r.affected)
+    return new HttpException(`Remove, id: ${id}`, HttpStatus.OK);
+
+  throw new HttpException(
+    'No existe valoracion con ese id',
+    HttpStatus.NOT_FOUND,
+  );
 }
