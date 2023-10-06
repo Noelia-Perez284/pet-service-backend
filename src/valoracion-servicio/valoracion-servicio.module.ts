@@ -7,9 +7,11 @@ import { TarjetaServicio } from 'src/tarjeta-servicio/entities/tarjeta-servicio.
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 import { UsuarioService } from 'src/usuario/usuario.service';
 import { TarjetaServicioService } from 'src/tarjeta-servicio/tarjeta-servicio.service';
+import { UsuarioModule } from 'src/usuario/usuario.module';
+import { TarjetaServicioModule } from 'src/tarjeta-servicio/tarjeta-servicio.module';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([ValoracionServicio, TarjetaServicio, Usuario]) , UsuarioService, TarjetaServicioService],
+  imports:[TypeOrmModule.forFeature([ValoracionServicio, TarjetaServicio, Usuario]) , UsuarioModule, TarjetaServicioModule],
   controllers: [ValoracionServicioController],
   providers: [ValoracionServicioService],
   exports: [ValoracionServicioService]

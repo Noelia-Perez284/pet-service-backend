@@ -18,25 +18,25 @@ export class ValoracionServicioService {constructor(
   private usuario: UsuarioService
 ) {}
 
-create(valoracionServicioDto: CreateValoracionServicioDto) {
-  const c = this.valoracionServicioRepository.create(valoracionServicioDto);
-  return this.valoracionServicioRepository.save(c);
-}
+
 
 findAll(): Promise<ValoracionServicio[]> {
   return this.valoracionServicioRepository.find();
 }
 
-async update(id: number, updateValoracionServicioDto: UpdateValoracionServicioDto) {
-  await this.findOne(id);
-
+async createOrUpdate(updateValoracionServicioDto: UpdateValoracionServicioDto) {
+ const valoracion = await this.findOne(updateValoracionServicioDto.idUsuario, updateValoracionServicioDto.idTarjetaServicio);
+if (!valoracion){
+  const c = this.valoracionServicioRepository.create(updateValoracionServicioDto);
+  return this.valoracionServicioRepository.save(c);
+}
   try {
     const result = await this.valoracionServicioRepository.update(
-      { idValoracionServicio: id },
-      { ...updateValoracionServicioDto, idValoracionServicio: id },
+      { idValoracionServicio: valoracion.idValoracionServicio },
+      { ...updateValoracionServicioDto, idValoracionServicio: valoracion.idValoracionServicio },
     );
 
-    console.log(`Update, id: ${id}, result: ${result}`);
+    console.log(`Update, id: ${valoracion.idValoracionServicio}, result: ${result}`);
 
     return result;
   } catch (error) {
@@ -45,24 +45,16 @@ async update(id: number, updateValoracionServicioDto: UpdateValoracionServicioDt
   }
 }
 
-async findOne(idUsuario: number, idTarjetaServicio: number, valoracionServicioDto: CreateValoracionServicioDto, UpdateValoracionServicioDto: UpdateValoracionServicioDto) {
-  const tarjetaServicio = await this.tarjetaServicio.findOne(idTarjetaServicio)
-  const usuario = await this.usuario.findOne(idUsuario)
+async findOne(idUsuario: number, idTarjetaServicio: number) {
+  
   return this.valoracionServicioRepository.findOne({
     where: {
-      idUsuario: usuario,
-      idTarjetaServicio: tarjetaServicio
+      usuario:{idUsuario: idUsuario },
+     tarjetaServicio: {idTarjetaServicio: idTarjetaServicio}
     }
   })
 
  
-
-  return this.valoracionServicioRepository.findOne({
-    where: {
-      idValoracionServicio: id
-    },
-    relations: ['tarjeta-servicio']
-  });
 
 }
 async remove(id: number) {
@@ -78,4 +70,5 @@ async remove(id: number) {
     'No existe valoracion con ese id',
     HttpStatus.NOT_FOUND,
   );
+}
 }

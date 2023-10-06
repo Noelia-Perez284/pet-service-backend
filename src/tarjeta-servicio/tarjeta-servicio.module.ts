@@ -8,10 +8,9 @@ import { Provincia } from 'src/provincia/entities/provincia.entity';
 import { ValoracionServicio } from 'src/valoracion-servicio/entities/valoracion-servicio.entity';
 import { CategoriaModule } from 'src/categoria/categoria.module';
 import { ProvinciaModule } from 'src/provincia/provincia.module';
-import { ValoracionServicioService } from 'src/valoracion-servicio/valoracion-servicio.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TarjetaServicio, Categoria, Provincia, ValoracionServicio]),CategoriaModule, ProvinciaModule, ValoracionServicioService],
+  imports: [TypeOrmModule.forFeature([TarjetaServicio, Categoria, Provincia, ValoracionServicio]),CategoriaModule, ProvinciaModule],
   controllers: [TarjetaServicioController],
   providers: [TarjetaServicioService],
   exports: [TarjetaServicioService]
