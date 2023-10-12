@@ -15,8 +15,6 @@ export class TarjetaServicio {
   @PrimaryGeneratedColumn()
   idTarjetaServicio: number;
   @Column()
-  valoracion: number;
-  @Column()
   imagen: string;
   @Column()
   nombre: string;
@@ -28,10 +26,7 @@ export class TarjetaServicio {
   descripcion: string;
   @Column()
   contacto: string;
-  @Column()
-  votos: number;
-  @Column()
-  totalValoracion: number;
+
 
   @ManyToOne((type) => Categoria, (categoria) => categoria.tarjetasServicio)
   @JoinColumn(/* { name: 'idCategoria' } */)
@@ -48,24 +43,20 @@ export class TarjetaServicio {
   valoraciones: ValoracionServicio[];
 
   constructor(
-    valoracion: number,
     imagen: string,
     nombre: string,
     precio: number,
     localidad: string,
     descripcion: string,
     contacto: string,
-    votos: number,
-    totalValoracion: number,
+
   ) {
-    this.valoracion = valoracion;
     this.imagen = imagen;
     this.nombre = nombre;
     this.precio = precio;
     this.localidad = localidad;
     this.descripcion = descripcion;
     this.contacto = contacto;
-    this.votos = votos;
-    this.totalValoracion = totalValoracion;
+
   }
 }
