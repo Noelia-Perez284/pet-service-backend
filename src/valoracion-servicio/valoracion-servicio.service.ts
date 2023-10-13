@@ -69,6 +69,18 @@ export class ValoracionServicioService {
   }
 
   /**************************************************************** */
+  //funcion que devuelve las querys de votos y promedio por cada tarjeta
+  async votosYValoraciones(): Promise<any> {
+    return this.valoracionServicioRepository
+      .createQueryBuilder("valoraciones")
+      .select(
+        "valoraciones.tarjetaServicioIdTarjetaServicio AS id, COUNT(valoraciones.valoracion) AS votos , AVG(valoraciones.valoracion) AS promedio",
+      )
+      .groupBy("valoraciones.tarjetaServicioIdTarjetaServicio")
+      .getRawMany();
+  }
+
+  /***************************************************************** */
 
   async findOne(idUsuario: number, idTarjetaServicio: number) {
     return this.valoracionServicioRepository.findOne({

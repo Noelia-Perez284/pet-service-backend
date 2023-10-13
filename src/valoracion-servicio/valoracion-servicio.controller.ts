@@ -17,7 +17,7 @@ import { Usuario } from "src/usuario/entities/usuario.entity";
 @Controller("valoracion-servicio")
 export class ValoracionServicioController {
   constructor(
-    private readonly valoracionServicioService: ValoracionServicioService
+    private readonly valoracionServicioService: ValoracionServicioService,
   ) {}
 
   @Get()
@@ -28,18 +28,23 @@ export class ValoracionServicioController {
   @Get("usuario/:id/tarjeta/:id")
   findOne(
     @Param("usuario") idUsuario: number,
-    @Param("tarjeta") idTarjetaServicio: number
+    @Param("tarjeta") idTarjetaServicio: number,
   ) {
     return this.valoracionServicioService.findOne(idUsuario, idTarjetaServicio);
+  }
+
+  @Get("valoresTarjeta")
+  votosYValoraciones() {
+    return this.valoracionServicioService.votosYValoraciones();
   }
 
   @Put(":id")
   createOrUpdate(
     @Param("id") id: string,
-    @Body() updateValoracionServicioDto: UpdateValoracionServicioDto
+    @Body() updateValoracionServicioDto: UpdateValoracionServicioDto,
   ) {
     return this.valoracionServicioService.createOrUpdate(
-      updateValoracionServicioDto
+      updateValoracionServicioDto,
     );
   }
 

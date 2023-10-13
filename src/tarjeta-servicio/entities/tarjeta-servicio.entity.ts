@@ -1,6 +1,6 @@
-import { Categoria } from 'src/categoria/entities/categoria.entity';
-import { Provincia } from 'src/provincia/entities/provincia.entity';
-import { ValoracionServicio } from 'src/valoracion-servicio/entities/valoracion-servicio.entity';
+import { Categoria } from "src/categoria/entities/categoria.entity";
+import { Provincia } from "src/provincia/entities/provincia.entity";
+import { ValoracionServicio } from "src/valoracion-servicio/entities/valoracion-servicio.entity";
 import {
   Column,
   Entity,
@@ -8,9 +8,9 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-} from 'typeorm';
+} from "typeorm";
 
-@Entity('tarjetaServicio')
+@Entity("tarjetaServicio")
 export class TarjetaServicio {
   @PrimaryGeneratedColumn()
   idTarjetaServicio: number;
@@ -26,7 +26,6 @@ export class TarjetaServicio {
   descripcion: string;
   @Column()
   contacto: string;
-
 
   @ManyToOne((type) => Categoria, (categoria) => categoria.tarjetasServicio)
   @JoinColumn(/* { name: 'idCategoria' } */)
@@ -49,7 +48,6 @@ export class TarjetaServicio {
     localidad: string,
     descripcion: string,
     contacto: string,
-
   ) {
     this.imagen = imagen;
     this.nombre = nombre;
@@ -57,6 +55,5 @@ export class TarjetaServicio {
     this.localidad = localidad;
     this.descripcion = descripcion;
     this.contacto = contacto;
-
   }
 }
