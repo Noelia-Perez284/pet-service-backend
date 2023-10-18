@@ -14,6 +14,7 @@ import { TarjetaServicioModule } from "./tarjeta-servicio/tarjeta-servicio.modul
 import { ProvinciaModule } from "./provincia/provincia.module";
 import { CategoriaModule } from "./categoria/categoria.module";
 import { VistaModule } from './vista/vista.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -37,6 +38,7 @@ import { VistaModule } from './vista/vista.module';
     ProvinciaModule,
     CategoriaModule,
     VistaModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
