@@ -67,9 +67,6 @@ async findByCategoryAndProvince(idCategoria: number, idProvincia: number) {
       categoria: categoria,
       provincia: provincia,
     },
-    order: {
-      valoracion: 'DESC',
-    },
   });
 
   if (servicios.length > 0) {
