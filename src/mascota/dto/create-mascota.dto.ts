@@ -3,4 +3,5 @@ export class CreateMascotaDto {
     tipo:string;
     libreta:string;
     foto:string;
+    duenioIdUsuario:number;
 }
