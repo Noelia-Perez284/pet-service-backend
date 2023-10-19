@@ -28,6 +28,10 @@ export class TarjetaServicio {
   descripcion: string;
   @Column()
   contacto: string;
+  @Column()
+  votos: number;
+  @Column()
+  totalValoracion: number;
 
   @ManyToOne((type) => Categoria, (categoria) => categoria.tarjetasServicio)
   @JoinColumn(/* { name: 'idCategoria' } */)
@@ -51,6 +55,8 @@ export class TarjetaServicio {
     localidad: string,
     descripcion: string,
     contacto: string,
+    votos: number,
+    totalValoracion: number,
   ) {
     this.valoracion = valoracion;
     this.imagen = imagen;
@@ -59,5 +65,7 @@ export class TarjetaServicio {
     this.localidad = localidad;
     this.descripcion = descripcion;
     this.contacto = contacto;
+    this.votos = votos;
+    this.totalValoracion = totalValoracion;
   }
 }

@@ -15,9 +15,10 @@ import { PerdidosYencontrado } from "src/perdidos-yencontrados/entities/perdidos
       Mascota,
       ValoracionServicio,
       PerdidosYencontrado,
-    ]),
+    ]), 
   ],
   controllers: [UsuarioController],
   providers: [UsuarioService],
+  exports: [UsuarioService]
 })
 export class UsuarioModule {}

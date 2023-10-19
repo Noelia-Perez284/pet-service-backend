@@ -4,32 +4,59 @@ import { UpdateValoracionServicioDto } from './dto/update-valoracion-servicio.dt
 import { InjectRepository } from '@nestjs/typeorm';
 import { ValoracionServicio } from './entities/valoracion-servicio.entity';
 import { Repository } from 'typeorm';
+import { TarjetaServicioService } from 'src/tarjeta-servicio/tarjeta-servicio.service';
+import { TarjetaServicio } from '../tarjeta-servicio/entities/tarjeta-servicio.entity';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
+import { UsuarioService } from '../usuario/usuario.service';
+
 
 @Injectable()
 export class ValoracionServicioService {constructor(
   @InjectRepository(ValoracionServicio)
   private readonly valoracionServicioRepository: Repository<ValoracionServicio>,
+  private tarjetaServicio: TarjetaServicioService,
+  private usuario: UsuarioService
 ) {}
 
-create(valoracionServicioDto: CreateValoracionServicioDto) {
-  const c = this.valoracionServicioRepository.create(valoracionServicioDto);
-  return this.valoracionServicioRepository.save(c);
-}
+
 
 findAll(): Promise<ValoracionServicio[]> {
   return this.valoracionServicioRepository.find();
 }
 
-async findOne(id: number) {
-  const c = await this.valoracionServicioRepository.findOneBy({ idValoracionServicio: id });
-  if (c) return c;
+async createOrUpdate(updateValoracionServicioDto: UpdateValoracionServicioDto) {
+ const valoracion = await this.findOne(updateValoracionServicioDto.idUsuario, updateValoracionServicioDto.idTarjetaServicio);
+if (!valoracion){
+  const c = this.valoracionServicioRepository.create(updateValoracionServicioDto);
+  return this.valoracionServicioRepository.save(c);
+}
+  try {
+    const result = await this.valoracionServicioRepository.update(
+      { idValoracionServicio: valoracion.idValoracionServicio },
+      { ...updateValoracionServicioDto, idValoracionServicio: valoracion.idValoracionServicio },
+    );
 
-  throw new HttpException(
-    'No existe una valoracion con ese id',
-    HttpStatus.NOT_FOUND,
-  );
+    console.log(`Update, id: ${valoracion.idValoracionServicio}, result: ${result}`);
+
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw new HttpException('no se pudo realizar la operacion', HttpStatus.NOT_IMPLEMENTED);
+  }
 }
 
+async findOne(idUsuario: number, idTarjetaServicio: number) {
+  
+  return this.valoracionServicioRepository.findOne({
+    where: {
+      usuario:{idUsuario: idUsuario },
+     tarjetaServicio: {idTarjetaServicio: idTarjetaServicio}
+    }
+  })
+
+ 
+
+}
 async remove(id: number) {
   const r = await this.valoracionServicioRepository.delete(id);
 
@@ -43,23 +70,5 @@ async remove(id: number) {
     'No existe valoracion con ese id',
     HttpStatus.NOT_FOUND,
   );
-}
-
-async update(id: number, updateValoracionServicioDto: UpdateValoracionServicioDto) {
-  await this.findOne(id);
-
-  try {
-    const result = await this.valoracionServicioRepository.update(
-      { idValoracionServicio: id },
-      { ...updateValoracionServicioDto, idValoracionServicio: id },
-    );
-
-    console.log(`Update, id: ${id}, result: ${result}`);
-
-    return result;
-  } catch (error) {
-    console.log(error);
-    throw new HttpException('no se pudo realizar la operacion', HttpStatus.NOT_IMPLEMENTED);
-  }
 }
 }
