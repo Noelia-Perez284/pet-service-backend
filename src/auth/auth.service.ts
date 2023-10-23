@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsuarioService } from '../usuario/usuario.service';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
+import { UserLoginDto } from './dto/usuarioLoginDto';
 
 @Injectable()
 export class AuthService {
@@ -26,24 +27,24 @@ export class AuthService {
     return null;
   }
 
-  async login(usuario: any) {
+  async login(userLoginDto: UserLoginDto) {
     console.log('Iniciando proceso de autenticación...');
     
     // Verifica que esté la contraseña en "usuario" proporcionado
-    if (!usuario || !usuario.correo || !usuario.password) {
+    if (!userLoginDto || !userLoginDto.correo || !userLoginDto.password) {
 
       throw new UnauthorizedException('Credenciales incompletas');
     }
     
     // Valida las credenciales del usuario en el servicio de autenticación
-    const validUser = await this.validateUsuario(usuario.correo, usuario.password);
+    const validUser = await this.validateUsuario(userLoginDto.correo, userLoginDto.password);
   
     if (!validUser) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
   
     // Si las credenciales son válidas, genera un token JWT
-    const payload = { correo: usuario.correo, sub: validUser.idUsuario };
+    const payload = { correo: userLoginDto.correo, sub: validUser.idUsuario };
     const token = this.jwtService.sign(payload);
   
     console.log('Token JWT generado:', token);
