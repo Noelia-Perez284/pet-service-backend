@@ -4,9 +4,7 @@ import { UpdateValoracionServicioDto } from "./dto/update-valoracion-servicio.dt
 import { InjectRepository } from "@nestjs/typeorm";
 import { ValoracionServicio } from "./entities/valoracion-servicio.entity";
 import { Repository } from "typeorm";
-import { TarjetaServicioService } from "src/tarjeta-servicio/tarjeta-servicio.service";
-import { TarjetaServicio } from "../tarjeta-servicio/entities/tarjeta-servicio.entity";
-import { Usuario } from "src/usuario/entities/usuario.entity";
+import { TarjetaServicioService } from "../tarjeta-servicio/tarjeta-servicio.service";
 import { UsuarioService } from "../usuario/usuario.service";
 
 @Injectable()
@@ -70,14 +68,19 @@ export class ValoracionServicioService {
 
   /**************************************************************** */
   //funcion que devuelve las querys de votos y promedio por cada tarjeta
-  async votosYValoraciones(): Promise<any> {
-    return this.valoracionServicioRepository
-      .createQueryBuilder("valoraciones")
-      .select(
-        "valoraciones.tarjetaServicioIdTarjetaServicio AS id, COUNT(valoraciones.valoracion) AS votos , AVG(valoraciones.valoracion) AS promedio",
-      )
-      .groupBy("valoraciones.tarjetaServicioIdTarjetaServicio")
-      .getRawMany();
+  async votosYValoraciones(/* idTarjetaServicio: number */): Promise<any> {
+    return (
+      this.valoracionServicioRepository
+        .createQueryBuilder("valoraciones")
+        .select(
+          "valoraciones.tarjetaServicioIdTarjetaServicio AS id, COUNT(valoraciones.valoracion) AS votos , AVG(valoraciones.valoracion) AS promedio",
+        )
+        /* .where("valoraciones.tarjetaServicioIdTarjetaServicio = :id ", {
+        id: idTarjetaServicio,
+      }) */
+        .groupBy("valoraciones.tarjetaServicioIdTarjetaServicio")
+        .getRawMany()
+    );
   }
 
   /***************************************************************** */
