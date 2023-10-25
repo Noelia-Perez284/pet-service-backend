@@ -16,17 +16,20 @@ export class PerdidosYencontrado {
     contacto:string;
     @Column()
     ubicacion:string;
+    @Column()
+    imagen: string;
 
     @ManyToOne(type => Usuario, usuario => usuario.perdidosYencontrados)
     @JoinColumn()
     contactoUsuario: Usuario;
 
-    constructor(nombre:string, tipo:string, descripcion:string, contacto:string, ubicacion:string){
+    constructor(nombre:string, tipo:string, descripcion:string, contacto:string, ubicacion:string, imagen: string){
         this.nombre=nombre;
         this.tipo=tipo;
         this.descripcion=descripcion;
         this.contacto=contacto;
-        this.ubicacion=ubicacion;      
+        this.ubicacion=ubicacion; 
+        this.imagen= imagen;     
     
     }
 }
