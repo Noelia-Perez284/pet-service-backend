@@ -40,6 +40,18 @@ export class TarjetaServicioController {
     return this.tarjetaServicioService.tarjetasYValoraciones( idTarjetaServicio  );
   }
  */
+  @Get("categoria/:idCategoria")
+  async findByCategor(@Param("idCategoria", ParseIntPipe) idCategoria: number) {
+    try {
+      const servicios = await this.tarjetaServicioService.findByCategory(
+        idCategoria,
+      );
+      return { data: servicios, message: "Servicios encontrados" };
+    } catch (error) {
+      return { error: error.message };
+    }
+  }
+
   @Get("categoria/:idCategoria/provincia/:idProvincia")
   async findByCategoryAndProvince(
     @Param("idCategoria", ParseIntPipe) idCategoria: number,

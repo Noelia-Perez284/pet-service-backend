@@ -83,6 +83,44 @@ export class TarjetaServicioService {
     return tarjeta;
   }
 
+  async findByCategory(idCategoria: number) {
+    const categoria = await this.CategoriaService.findOne(idCategoria);
+
+    if (!categoria) {
+      throw new HttpException("Categoría  no encontrada", HttpStatus.NOT_FOUND);
+    }
+
+    const servicios = await this.tarjetaServicioRepository.find({
+      where: {
+        categoria: categoria,
+      },
+      relations: ["categoria", "provincia", "valoraciones"],
+    });
+
+    if (servicios.length > 0) {
+      const tarjetas = [];
+      for (let i = 0; i < servicios.length; i++) {
+        const votos = servicios[i].valoraciones.length;
+        const tarjeta = servicios[i];
+        let promedio = 0;
+        function promediar() {
+          for (let i = 0; i < votos; i++) {
+            promedio = promedio + tarjeta.valoraciones[i].valoracion;
+          }
+          promedio = Math.floor(promedio / votos);
+        }
+        promediar();
+        const tarjetaConValores = { ...tarjeta, votos, promedio };
+        tarjetas.push(tarjetaConValores);
+      }
+      return tarjetas;
+    }
+    throw new HttpException(
+      "No se encontraron servicios para esta categoría ",
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
   async findByCategoryAndProvince(idCategoria: number, idProvincia: number) {
     const categoria = await this.CategoriaService.findOne(idCategoria);
     const provincia = await this.ProvinciaService.findOne(idProvincia);
