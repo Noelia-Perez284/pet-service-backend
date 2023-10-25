@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e436a762.css",
+    "main.js": "/static/js/main.6b6eb015.js",
+    "static/media/fondo.jpg": "/static/media/fondo.cef19cbbd75a2d496efd.jpg",
+    "static/media/footer.png": "/static/media/footer.513d22655288d0b849ad.png",
+    "static/media/img13.jpg": "/static/media/img13.dd7083c8b528477f5b41.jpg",
+    "static/media/img12.jpg": "/static/media/img12.0a8e898b9ec44b70e66f.jpg",
+    "static/media/img10.jpg": "/static/media/img10.573c45ff0de2b49da440.jpg",
+    "static/media/img6.jpg": "/static/media/img6.7a9460335cdd304a0bb7.jpg",
+    "static/media/img7.jpg": "/static/media/img7.cbcac3417c1e760457da.jpg",
+    "static/media/img3.jpg": "/static/media/img3.12e8a3bcfd4e4aed218f.jpg",
+    "static/media/img1.jpg": "/static/media/img1.dd0dedfaae21f5b7f945.jpg",
+    "static/media/img9.jpg": "/static/media/img9.7e995b47f333eacb9224.jpg",
+    "static/media/img4.jpg": "/static/media/img4.86f3346bb167d71febd8.jpg",
+    "static/media/img8.jpg": "/static/media/img8.9ed09556456f2815e5a5.jpg",
+    "static/media/logo.png": "/static/media/logo.ba218ad0839f9563c342.png",
+    "static/media/img11.jpg": "/static/media/img11.627290342dcc7f51bbc2.jpg",
+    "static/media/img2.jpg": "/static/media/img2.03393be43ffa6039960a.jpg",
+    "static/media/img5.jpg": "/static/media/img5.42a845aa65142d1d2485.jpg",
+    "static/media/PetservicePata.png": "/static/media/PetservicePata.acc4f5f85feda1b40525.png",
+    "static/media/img14.jpg": "/static/media/img14.4fd8736855e9f455e212.jpg",
+    "static/media/acceso.png": "/static/media/acceso.f0d7bc030ab222b84f44.png",
+    "static/media/instagram.png": "/static/media/instagram.75e0546a6b5abe4c0506.png",
+    "index.html": "/index.html",
+    "main.e436a762.css.map": "/static/css/main.e436a762.css.map",
+    "main.6b6eb015.js.map": "/static/js/main.6b6eb015.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e436a762.css",
+    "static/js/main.6b6eb015.js"
+  ]
+}
