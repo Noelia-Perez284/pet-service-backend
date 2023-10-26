@@ -19,13 +19,14 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({ rootPath: join(__dirname, '..', 'client') }),
+
+    ServeStaticModule.forRoot({ rootPath: join(__dirname, '..', 'client') }), 
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localhost",
       port: 3306,
       username: "root",
-      password: "R$gasali123",
+      password: "12345678",
       database: "petservice",
       entities: ["dist/**/**.entity{.ts,.js}"],
       synchronize: false,
