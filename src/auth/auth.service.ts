@@ -32,14 +32,18 @@ export class AuthService {
      
       userlogin={succes:true,token:tokenLogin,
         correo:user.correo,nombre:user.nombre,
-        mensaje:"Bienvenido",tipo:user.tipo}
+        mensaje: "Bienvenido", tipo: user.tipo,
+        idUsuario: user.idUsuario
+      }
 
     } catch (error) {
       console.log(error);
 
       userlogin={succes:false,token:"",
         correo:loginDto.correo,nombre:"",
-        mensaje:"Ocurrió un error al ingresar",tipo:null}      
+        mensaje: "Ocurrió un error al ingresar", tipo: null,
+        idUsuario: null,
+      }      
       return userlogin;
     }
     return userlogin;
