@@ -6,17 +6,20 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from "@nestjs/common";
 import { MascotaService } from "./mascota.service";
 import { CreateMascotaDto } from "./dto/create-mascota.dto";
 import { UpdateMascotaDto } from "./dto/update-mascota.dto";
 import { Usuario } from "src/usuario/entities/usuario.entity";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("mascota")
 export class MascotaController {
   constructor(private readonly mascotaService: MascotaService) {}
 
-  @Post()
+  @Post('create')
+  @UseGuards(JwtAuthGuard)
   create(@Body() createMascotaDto: CreateMascotaDto) {
     return this.mascotaService.create(createMascotaDto);
   }
