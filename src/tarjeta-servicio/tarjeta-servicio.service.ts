@@ -4,8 +4,6 @@ import { UpdateTarjetaServicioDto } from "./dto/update-tarjeta-servicio.dto";
 import { TarjetaServicio } from "./entities/tarjeta-servicio.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Categoria } from "src/categoria/entities/categoria.entity";
-import { Provincia } from "src/provincia/entities/provincia.entity";
 import { CategoriaService } from "../categoria/categoria.service";
 import { ProvinciaService } from "../provincia/provincia.service";
 
@@ -41,19 +39,86 @@ export class TarjetaServicioService {
     return this.tarjetaServicioRepository.save(tarjetaServicio);
   }
 
-  findAll() {
-    return this.tarjetaServicioRepository.find({
-      relations: ["categoria", "provincia"],
+  async findAll() {
+    const results = await this.tarjetaServicioRepository.find({
+      relations: ["categoria", "provincia", "valoraciones"],
     });
+    const tarjetas = [];
+    for (let i = 0; i < results.length; i++) {
+      const votos = results[i].valoraciones.length;
+      const tarjeta = results[i];
+      let promedio = 0;
+      function promediar() {
+        for (let i = 0; i < votos; i++) {
+          promedio = promedio + tarjeta.valoraciones[i].valoracion;
+        }
+        promedio = Math.floor(promedio / votos);
+      }
+      promediar();
+      const tarjetaConValores = { ...tarjeta, votos, promedio };
+      tarjetas.push(tarjetaConValores);
+    }
+    return tarjetas;
   }
-
-  findOne(id: number) {
-    return this.tarjetaServicioRepository.findOne({
+  /**************************************************************** */
+  async findOne(id: number) {
+    const result = await this.tarjetaServicioRepository.findOne({
       where: {
         idTarjetaServicio: id,
       },
-      relations: ["categoria", "provincia"],
+      relations: ["categoria", "provincia", "valoraciones"],
     });
+
+    const votos = result.valoraciones.length;
+    let promedio = 0;
+    function promediar() {
+      for (let i = 0; i < votos; i++) {
+        promedio = promedio + result.valoraciones[i].valoracion;
+      }
+      promedio = Math.floor(promedio / votos);
+    }
+    promediar();
+
+    const tarjeta = { ...result, votos, promedio };
+    return tarjeta;
+  }
+
+  async findByCategory(idCategoria: number) {
+    const categoria = await this.CategoriaService.findOne(idCategoria);
+
+    if (!categoria) {
+      throw new HttpException("Categoría  no encontrada", HttpStatus.NOT_FOUND);
+    }
+
+    const servicios = await this.tarjetaServicioRepository.find({
+      where: {
+        categoria: categoria,
+      },
+      relations: ["categoria", "provincia", "valoraciones"],
+    });
+
+    if (servicios.length > 0) {
+      const tarjetas = [];
+      for (let i = 0; i < servicios.length; i++) {
+        const votos = servicios[i].valoraciones.length;
+        const tarjeta = servicios[i];
+        let promedio = 0;
+        function promediar() {
+          for (let i = 0; i < votos; i++) {
+            promedio = promedio + tarjeta.valoraciones[i].valoracion;
+          }
+          promedio = Math.floor(promedio / votos);
+        }
+        promediar();
+        const tarjetaConValores = { ...tarjeta, votos, promedio };
+        tarjetas.push(tarjetaConValores);
+      }
+      return tarjetas;
+    }
+    throw new HttpException(
+      "No se encontraron servicios para esta categoría ",
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async findByCategoryAndProvince(idCategoria: number, idProvincia: number) {
@@ -84,6 +149,28 @@ export class TarjetaServicioService {
     );
   }
 
+  /********************************************************** */
+  /* async tarjetasYValoraciones(/* idTarjetaServicio: number ): Promise<any> {
+    return (
+      this.tarjetaServicioRepository
+        .createQueryBuilder("tarjetaYValoracion")
+        .select([
+          "tarjetaServicio.*",
+          "valoraciones.tarjetaServicioIdTarjetaServicio AS id, COUNT(valoraciones.valoracion) AS votos , AVG(valoraciones.valoracion) AS promedio",
+        ])
+          .where("valoraciones.tarjetaServicioIdTarjetaServicio = :id ", {
+        id: idTarjetaServicio, 
+      }) 
+        .innerJoin(
+          "valoraciones",
+          "tarjetaServicio",
+          "valoraciones.tarjetaServicioIdTarjetaServicio = tarjetaServicio.idTarjetaServicio ",
+        )
+        .groupBy("valoraciones.tarjetaServicioIdTarjetaServicio")
+        .getRawMany()
+    );
+  } */
+  /**************************************************************** */
   async remove(id: number) {
     const r = await this.tarjetaServicioRepository.delete(id);
 
