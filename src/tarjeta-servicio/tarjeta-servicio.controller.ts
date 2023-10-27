@@ -17,7 +17,7 @@ import { Provincia } from "src/provincia/entities/provincia.entity";
 @Controller("tarjeta-servicio")
 export class TarjetaServicioController {
   constructor(
-    private readonly tarjetaServicioService: TarjetaServicioService
+    private readonly tarjetaServicioService: TarjetaServicioService,
   ) {}
 
   @Post()
@@ -35,17 +35,35 @@ export class TarjetaServicioController {
     return this.tarjetaServicioService.findOne(+id);
   }
 
-  @Get('categoria/:idCategoria/provincia/:idProvincia')
+  /*  @Get("tarjetasYValoracion/")
+  tarjetasYValoraciones( @Param("id") idTarjetaServicio: number ) {
+    return this.tarjetaServicioService.tarjetasYValoraciones( idTarjetaServicio  );
+  }
+ */
+  @Get("categoria/:idCategoria")
+  async findByCategor(@Param("idCategoria", ParseIntPipe) idCategoria: number) {
+    try {
+      const servicios = await this.tarjetaServicioService.findByCategory(
+        idCategoria,
+      );
+      return { data: servicios, message: "Servicios encontrados" };
+    } catch (error) {
+      return { error: error.message };
+    }
+  }
+
+  @Get("categoria/:idCategoria/provincia/:idProvincia")
   async findByCategoryAndProvince(
-    @Param('idCategoria', ParseIntPipe) idCategoria: number,
-    @Param('idProvincia', ParseIntPipe) idProvincia: number,
+    @Param("idCategoria", ParseIntPipe) idCategoria: number,
+    @Param("idProvincia", ParseIntPipe) idProvincia: number,
   ) {
     try {
-      const servicios = await this.tarjetaServicioService.findByCategoryAndProvince(
-        idCategoria,
-        idProvincia,
-      );
-      return { data: servicios, message: 'Servicios encontrados' };
+      const servicios =
+        await this.tarjetaServicioService.findByCategoryAndProvince(
+          idCategoria,
+          idProvincia,
+        );
+      return { data: servicios, message: "Servicios encontrados" };
     } catch (error) {
       return { error: error.message };
     }
@@ -54,7 +72,7 @@ export class TarjetaServicioController {
   @Patch(":id")
   update(
     @Param("id") id: string,
-    @Body() updateTarjetaServicioDto: UpdateTarjetaServicioDto
+    @Body() updateTarjetaServicioDto: UpdateTarjetaServicioDto,
   ) {
     return this.tarjetaServicioService.update(+id, updateTarjetaServicioDto);
   }

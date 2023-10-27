@@ -35,9 +35,9 @@ export class ValoracionServicioController {
     return this.valoracionServicioService.findOne(idUsuario, idTarjetaServicio);
   }
 
-  @Get("valoresTarjeta")
-  votosYValoraciones() {
-    return this.valoracionServicioService.votosYValoraciones();
+  @Get("valoresTarjeta/")
+  votosYValoraciones(/* @Param("id") idTarjetaServicio: number */) {
+    return this.valoracionServicioService.votosYValoraciones(/* idTarjetaServicio */);
   }
 
   @Put(":id")

@@ -19,7 +19,10 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({ rootPath: join(__dirname, '..', 'client') }),
+
+
+    ServeStaticModule.forRoot({ rootPath: join(__dirname, '..', 'client') }), 
+
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localhost",
@@ -42,5 +45,6 @@ import { AuthModule } from './auth/auth.module';
   ],
   controllers: [AppController],
   providers: [AppService],
+ 
 })
 export class AppModule { }
