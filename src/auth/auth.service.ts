@@ -26,7 +26,7 @@ export class AuthService {
         return userlogin;
       }
       
-      const payload = { sub: user.idUsuario, name: user.nombre, email: user.correo };
+      const payload = { sub: user.idUsuario, name: user.nombre, email: user.correo,tipo:user.tipo };
       
       const tokenLogin = this.jwtService.sign(payload);
      
@@ -47,5 +47,20 @@ export class AuthService {
       return userlogin;
     }
     return userlogin;
+  }
+
+    async buscarUsuarioPorCorreo(correo: string): Promise<Usuario | null> {
+    return this.usuarioService.findByCorreo(correo);
+  }
+
+  async validateUsuario(correo: string, password: string) {
+    const usuario = await this.buscarUsuarioPorCorreo(correo);
+
+    if (usuario && usuario.password === password) {
+      const { idUsuario, correo } = usuario;
+      return { idUsuario, correo };
+    }
+
+    return null;
   }
 }

@@ -18,5 +18,7 @@ export class CreateMascotaDto {
     foto: string;
 
     @IsNotEmpty()
-    duenioIdUsuario:number;
+    duenioIdUsuario: number;
+    
+    tipoUsuario: number;
 }

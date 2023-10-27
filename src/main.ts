@@ -2,6 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
+import * as express from 'express';
+
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -11,6 +14,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true, // Retorna un bad request si hay propiedades en el objeto no requeridas
     }),
   );
+  app.use(express.json()); // Middleware para analizar solicitudes JSON
   await app.listen(3000);
 }
 bootstrap();

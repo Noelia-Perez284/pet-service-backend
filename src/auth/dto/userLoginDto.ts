@@ -5,7 +5,7 @@ export class UserLoginDto{
     public nombre:string;
     public mensaje:string;
     public tipo: number;
-     public idUsuario: number;
+    public idUsuario: number;
   
   
 
