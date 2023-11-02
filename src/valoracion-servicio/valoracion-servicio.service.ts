@@ -86,13 +86,19 @@ export class ValoracionServicioService {
   /***************************************************************** */
 
   async findOne(idUsuario: number, idTarjetaServicio: number) {
-    return this.valoracionServicioRepository.findOne({
-      where: {
-        usuario: { idUsuario: idUsuario },
-        tarjetaServicio: { idTarjetaServicio: idTarjetaServicio },
-      },
-    });
+    try {
+      const valoracion = await this.valoracionServicioRepository.findOne({
+        where: {
+          usuario: { idUsuario: idUsuario },
+          tarjetaServicio: { idTarjetaServicio: idTarjetaServicio },
+        },
+      });
+      return valoracion;
+    } catch (error) {
+      console.log(error);
+    }
   }
+
   async remove(id: number) {
     const r = await this.valoracionServicioRepository.delete(id);
 
