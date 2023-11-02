@@ -40,9 +40,9 @@ export class ValoracionServicioController {
     return this.valoracionServicioService.votosYValoraciones(/* idTarjetaServicio */);
   }
 
-  @Put(":id")
+  @Put()
   createOrUpdate(
-    @Param("id") id: string,
+    //@Param("idTarjetaServicio") idTarjetaServicio: number,
     @Body() updateValoracionServicioDto: UpdateValoracionServicioDto,
   ) {
     return this.valoracionServicioService.createOrUpdate(
