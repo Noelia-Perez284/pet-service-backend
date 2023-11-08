@@ -1,6 +1,17 @@
+import { IsNumber, IsString } from "class-validator";
+
 export class CreateValoracionServicioDto {
-    valoracion:number;
-    comentario:string;
-    idUsuario: number;
+    @IsNumber()
     idTarjetaServicio: number;
+
+    @IsNumber()
+    idUsuario: number;
+
+    @IsNumber()
+    valoracion: number;
+    
+    @IsString()
+    comentario:string;
+
 }
+    

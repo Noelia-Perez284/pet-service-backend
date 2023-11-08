@@ -1,11 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e436a762.css",
-<<<<<<< HEAD
-    "main.js": "/static/js/main.a9258063.js",
-=======
-    "main.js": "/static/js/main.4efe6565.js",
->>>>>>> registroUsuariosFormMain
+    "main.css": "/static/css/main.3adefc1b.css",
+    "main.js": "/static/js/main.554a570f.js",
     "static/media/fondo.jpg": "/static/media/fondo.cef19cbbd75a2d496efd.jpg",
     "static/media/footer.png": "/static/media/footer.513d22655288d0b849ad.png",
     "static/media/img13.jpg": "/static/media/img13.dd7083c8b528477f5b41.jpg",
@@ -27,19 +23,11 @@
     "static/media/acceso.png": "/static/media/acceso.f0d7bc030ab222b84f44.png",
     "static/media/instagram.png": "/static/media/instagram.75e0546a6b5abe4c0506.png",
     "index.html": "/index.html",
-    "main.e436a762.css.map": "/static/css/main.e436a762.css.map",
-<<<<<<< HEAD
-    "main.a9258063.js.map": "/static/js/main.a9258063.js.map"
+    "main.3adefc1b.css.map": "/static/css/main.3adefc1b.css.map",
+    "main.554a570f.js.map": "/static/js/main.554a570f.js.map"
   },
   "entrypoints": [
-    "static/css/main.e436a762.css",
-    "static/js/main.a9258063.js"
-=======
-    "main.4efe6565.js.map": "/static/js/main.4efe6565.js.map"
-  },
-  "entrypoints": [
-    "static/css/main.e436a762.css",
-    "static/js/main.4efe6565.js"
->>>>>>> registroUsuariosFormMain
+    "static/css/main.3adefc1b.css",
+    "static/js/main.554a570f.js"
   ]
 }
