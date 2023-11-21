@@ -21,7 +21,9 @@ import { AuthModule } from './auth/auth.module';
   imports: [
 
 
+
     ServeStaticModule.forRoot({ rootPath: join(__dirname, '..', 'client') }), 
+
 
     TypeOrmModule.forRoot({
       type: "mysql",

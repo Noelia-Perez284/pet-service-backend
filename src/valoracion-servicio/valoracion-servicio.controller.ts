@@ -27,11 +27,13 @@ export class ValoracionServicioController {
     return this.valoracionServicioService.findAll();
   }
 
-  @Get("usuario/:id/tarjeta/:id")
+  @Get("usuario/:idUsuario/tarjeta/:idTarjetaServicio")
   findOne(
-    @Param("usuario") idUsuario: number,
-    @Param("tarjeta") idTarjetaServicio: number,
+    @Param("idUsuario") idUsuario: number,
+    @Param("idTarjetaServicio") idTarjetaServicio: number,
   ) {
+    console.log("usuario", idUsuario);
+    console.log("tarjeta", idTarjetaServicio);
     return this.valoracionServicioService.findOne(idUsuario, idTarjetaServicio);
   }
 
@@ -40,10 +42,11 @@ export class ValoracionServicioController {
     return this.valoracionServicioService.votosYValoraciones(/* idTarjetaServicio */);
   }
 
+
   @Put(":id")
   @UseGuards(JwtAuthGuard)
   createOrUpdate(
-    @Param("id") id: string,
+    //@Param("idTarjetaServicio") idTarjetaServicio: number,
     @Body() updateValoracionServicioDto: UpdateValoracionServicioDto,
   ) {
     return this.valoracionServicioService.createOrUpdate(

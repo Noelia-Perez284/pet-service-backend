@@ -23,11 +23,11 @@ export class ValoracionServicioService {
   async createOrUpdate(
     updateValoracionServicioDto: UpdateValoracionServicioDto,
   ) {
-    const idUsuario = await this.usuario.findOne(
+    const usuario = await this.usuario.findOne(
       updateValoracionServicioDto.idUsuario,
     );
 
-    const idTarjetaServicio = await this.tarjetaServicio.findOne(
+    const tarjetaServicio = await this.tarjetaServicio.findOne(
       updateValoracionServicioDto.idTarjetaServicio,
     );
 
@@ -39,16 +39,18 @@ export class ValoracionServicioService {
       const c = this.valoracionServicioRepository.create(
         updateValoracionServicioDto,
       );
-      c.usuario = idUsuario;
-      c.tarjetaServicio = idTarjetaServicio;
+      c.usuario = usuario;
+      c.tarjetaServicio = tarjetaServicio;
       return this.valoracionServicioRepository.save(c);
     }
+    console.log(updateValoracionServicioDto);
+    console.log(valoracion);
     try {
       const result = await this.valoracionServicioRepository.update(
-        { idValoracionServicio: valoracion.idValoracionServicio },
+        { idValoracionServicio: valoracion.idValoracionServicio }, //seria como el where
         {
-          ...updateValoracionServicioDto,
-          idValoracionServicio: valoracion.idValoracionServicio,
+          valoracion: updateValoracionServicioDto.valoracion,
+          comentario: updateValoracionServicioDto.comentario,
         },
       );
 
@@ -86,13 +88,19 @@ export class ValoracionServicioService {
   /***************************************************************** */
 
   async findOne(idUsuario: number, idTarjetaServicio: number) {
-    return this.valoracionServicioRepository.findOne({
-      where: {
-        usuario: { idUsuario: idUsuario },
-        tarjetaServicio: { idTarjetaServicio: idTarjetaServicio },
-      },
-    });
+    try {
+      const valoracion = await this.valoracionServicioRepository.findOne({
+        where: {
+          usuario: { idUsuario: idUsuario },
+          tarjetaServicio: { idTarjetaServicio: idTarjetaServicio },
+        },
+      });
+      return valoracion;
+    } catch (error) {
+      console.log(error);
+    }
   }
+
   async remove(id: number) {
     const r = await this.valoracionServicioRepository.delete(id);
 
