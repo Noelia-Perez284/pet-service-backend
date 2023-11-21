@@ -17,6 +17,7 @@ import { CreateValoracionServicioDto } from "./dto/create-valoracion-servicio.dt
 import { UpdateValoracionServicioDto } from "./dto/update-valoracion-servicio.dto";
 import { Usuario } from "src/usuario/entities/usuario.entity";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+
 import * as jwt from 'jsonwebtoken';
 
 
@@ -46,8 +47,6 @@ export class ValoracionServicioController {
     return this.valoracionServicioService.votosYValoraciones(/* idTarjetaServicio */);
   }
 
-
- 
 
   @Put()
   createOrUpdate(@Body() updateValoracionServicioDto: UpdateValoracionServicioDto,@Req() req) {
