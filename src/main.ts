@@ -14,9 +14,9 @@ async function bootstrap() {
       whitelist: true, // Remueve todo lo que no esta incluido en la definicion del objeto
       forbidNonWhitelisted: true, // Retorna un bad request si hay propiedades en el objeto no requeridas
 
-   
-    })
-  );
+      
+    }),  
+    );
 
     app.use(cors({
     origin: 'http://localhost:3001', // dirección de la aplicación React
@@ -24,8 +24,6 @@ async function bootstrap() {
     credentials: true,
   }));
 
-  ;
-  app.use(express.json()); // Middleware para analizar solicitudes JSON
 
   await app.listen(3000);
 }
