@@ -12,15 +12,22 @@ export class MascotaService {
     @InjectRepository(Mascota)
     private readonly mascotaRepository: Repository<Mascota>,
     private usuarioService: UsuarioService,
-  ) {}
+  ) { }
+  
+  
   /******************************************** */
   async create(mascotaDto: CreateMascotaDto) {
-    const duenio = await this.usuarioService.findOne(
-      mascotaDto.duenioIdUsuario,
-    );
-    const mascota = this.mascotaRepository.create(mascotaDto);
-    mascota.duenio = duenio;
-    return this.mascotaRepository.save(mascota);
+    try {
+      console.log("entro al servicio");
+
+      const duenio = await this.usuarioService.findOne(mascotaDto.duenioIdUsuario);
+      const mascota = this.mascotaRepository.create(mascotaDto);
+      mascota.duenio = duenio;
+      return this.mascotaRepository.save(mascota);
+    } catch (error) {
+      console.log(error);
+      throw new HttpException('Ocurrió un error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
   /******************************************** */
   findAll(): Promise<Mascota[]> {

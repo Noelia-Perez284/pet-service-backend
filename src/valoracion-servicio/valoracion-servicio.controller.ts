@@ -8,11 +8,13 @@ import {
   Delete,
   Put,
   ParseIntPipe,
+  UseGuards,
 } from "@nestjs/common";
 import { ValoracionServicioService } from "./valoracion-servicio.service";
 import { CreateValoracionServicioDto } from "./dto/create-valoracion-servicio.dto";
 import { UpdateValoracionServicioDto } from "./dto/update-valoracion-servicio.dto";
 import { Usuario } from "src/usuario/entities/usuario.entity";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("valoracion-servicio")
 export class ValoracionServicioController {
@@ -40,7 +42,10 @@ export class ValoracionServicioController {
     return this.valoracionServicioService.votosYValoraciones(/* idTarjetaServicio */);
   }
 
-  @Put()
+
+  @Put(":id")
+  @UseGuards(JwtAuthGuard)
+
   createOrUpdate(
     //@Param("idTarjetaServicio") idTarjetaServicio: number,
     @Body() updateValoracionServicioDto: UpdateValoracionServicioDto,

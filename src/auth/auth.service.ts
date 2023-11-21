@@ -26,22 +26,41 @@ export class AuthService {
         return userlogin;
       }
       
-      const payload = { sub: user.idUsuario, name: user.nombre, email: user.correo };
+      const payload = { sub: user.idUsuario, name: user.nombre, email: user.correo,tipo:user.tipo };
       
       const tokenLogin = this.jwtService.sign(payload);
      
       userlogin={succes:true,token:tokenLogin,
         correo:user.correo,nombre:user.nombre,
-        mensaje:"Bienvenido",tipo:user.tipo}
+        mensaje: "Bienvenido", tipo: user.tipo,
+        idUsuario: user.idUsuario
+      }
 
     } catch (error) {
       console.log(error);
 
       userlogin={succes:false,token:"",
         correo:loginDto.correo,nombre:"",
-        mensaje:"Ocurrió un error al ingresar",tipo:null}      
+        mensaje: "Ocurrió un error al ingresar", tipo: null,
+        idUsuario: null,
+      }      
       return userlogin;
     }
     return userlogin;
+  }
+
+    async buscarUsuarioPorCorreo(correo: string): Promise<Usuario | null> {
+    return this.usuarioService.findByCorreo(correo);
+  }
+
+  async validateUsuario(correo: string, password: string) {
+    const usuario = await this.buscarUsuarioPorCorreo(correo);
+
+    if (usuario && usuario.password === password) {
+      const { idUsuario, correo } = usuario;
+      return { idUsuario, correo };
+    }
+
+    return null;
   }
 }
