@@ -4,9 +4,7 @@ import { UpdateValoracionServicioDto } from "./dto/update-valoracion-servicio.dt
 import { InjectRepository } from "@nestjs/typeorm";
 import { ValoracionServicio } from "./entities/valoracion-servicio.entity";
 import { Repository } from "typeorm";
-import { TarjetaServicioService } from "src/tarjeta-servicio/tarjeta-servicio.service";
-import { TarjetaServicio } from "../tarjeta-servicio/entities/tarjeta-servicio.entity";
-import { Usuario } from "src/usuario/entities/usuario.entity";
+import { TarjetaServicioService } from "../tarjeta-servicio/tarjeta-servicio.service";
 import { UsuarioService } from "../usuario/usuario.service";
 
 @Injectable()
@@ -25,11 +23,11 @@ export class ValoracionServicioService {
   async createOrUpdate(
     updateValoracionServicioDto: UpdateValoracionServicioDto,
   ) {
-    const idUsuario = await this.usuario.findOne(
+    const usuario = await this.usuario.findOne(
       updateValoracionServicioDto.idUsuario,
     );
 
-    const idTarjetaServicio = await this.tarjetaServicio.findOne(
+    const tarjetaServicio = await this.tarjetaServicio.findOne(
       updateValoracionServicioDto.idTarjetaServicio,
     );
 
@@ -41,16 +39,18 @@ export class ValoracionServicioService {
       const c = this.valoracionServicioRepository.create(
         updateValoracionServicioDto,
       );
-      c.usuario = idUsuario;
-      c.tarjetaServicio = idTarjetaServicio;
+      c.usuario = usuario;
+      c.tarjetaServicio = tarjetaServicio;
       return this.valoracionServicioRepository.save(c);
     }
+    console.log(updateValoracionServicioDto);
+    console.log(valoracion);
     try {
       const result = await this.valoracionServicioRepository.update(
-        { idValoracionServicio: valoracion.idValoracionServicio },
+        { idValoracionServicio: valoracion.idValoracionServicio }, //seria como el where
         {
-          ...updateValoracionServicioDto,
-          idValoracionServicio: valoracion.idValoracionServicio,
+          valoracion: updateValoracionServicioDto.valoracion,
+          comentario: updateValoracionServicioDto.comentario,
         },
       );
 
@@ -70,26 +70,37 @@ export class ValoracionServicioService {
 
   /**************************************************************** */
   //funcion que devuelve las querys de votos y promedio por cada tarjeta
-  async votosYValoraciones(): Promise<any> {
-    return this.valoracionServicioRepository
-      .createQueryBuilder("valoraciones")
-      .select(
-        "valoraciones.tarjetaServicioIdTarjetaServicio AS id, COUNT(valoraciones.valoracion) AS votos , AVG(valoraciones.valoracion) AS promedio",
-      )
-      .groupBy("valoraciones.tarjetaServicioIdTarjetaServicio")
-      .getRawMany();
+  async votosYValoraciones(/* idTarjetaServicio: number */): Promise<any> {
+    return (
+      this.valoracionServicioRepository
+        .createQueryBuilder("valoraciones")
+        .select(
+          "valoraciones.tarjetaServicioIdTarjetaServicio AS id, COUNT(valoraciones.valoracion) AS votos , AVG(valoraciones.valoracion) AS promedio",
+        )
+        /* .where("valoraciones.tarjetaServicioIdTarjetaServicio = :id ", {
+        id: idTarjetaServicio,
+      }) */
+        .groupBy("valoraciones.tarjetaServicioIdTarjetaServicio")
+        .getRawMany()
+    );
   }
 
   /***************************************************************** */
 
   async findOne(idUsuario: number, idTarjetaServicio: number) {
-    return this.valoracionServicioRepository.findOne({
-      where: {
-        usuario: { idUsuario: idUsuario },
-        tarjetaServicio: { idTarjetaServicio: idTarjetaServicio },
-      },
-    });
+    try {
+      const valoracion = await this.valoracionServicioRepository.findOne({
+        where: {
+          usuario: { idUsuario: idUsuario },
+          tarjetaServicio: { idTarjetaServicio: idTarjetaServicio },
+        },
+      });
+      return valoracion;
+    } catch (error) {
+      console.log(error);
+    }
   }
+
   async remove(id: number) {
     const r = await this.valoracionServicioRepository.delete(id);
 
