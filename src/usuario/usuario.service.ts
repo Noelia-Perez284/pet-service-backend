@@ -1,4 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,8 +13,16 @@ export class UsuarioService {
     private readonly usuarioRepository: Repository<Usuario>,
   ) {}
 
-  create(usuarioDto: CreateUsuarioDto) {
-    const usuario = this.usuarioRepository.create(usuarioDto);
+  async create(usuarioDto: CreateUsuarioDto): Promise<Usuario> {
+    // Hasheamos la contraseña
+    const hashedPassword = await bcrypt.hash(usuarioDto.password, 10);
+    
+    // Creamos un nuevo usuario con la contraseña encriptada
+    const usuario = this.usuarioRepository.create({
+      ...usuarioDto,
+      password: hashedPassword,
+    });
+
     return this.usuarioRepository.save(usuario);
   }
 

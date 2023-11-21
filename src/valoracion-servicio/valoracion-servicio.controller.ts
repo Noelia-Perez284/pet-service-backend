@@ -8,11 +8,18 @@ import {
   Delete,
   Put,
   ParseIntPipe,
+  UseGuards,
+  UnauthorizedException,
+  Req,
 } from "@nestjs/common";
 import { ValoracionServicioService } from "./valoracion-servicio.service";
 import { CreateValoracionServicioDto } from "./dto/create-valoracion-servicio.dto";
 import { UpdateValoracionServicioDto } from "./dto/update-valoracion-servicio.dto";
 import { Usuario } from "src/usuario/entities/usuario.entity";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+
+import * as jwt from 'jsonwebtoken';
+
 
 @Controller("valoracion-servicio")
 export class ValoracionServicioController {
@@ -40,15 +47,32 @@ export class ValoracionServicioController {
     return this.valoracionServicioService.votosYValoraciones(/* idTarjetaServicio */);
   }
 
+
   @Put()
-  createOrUpdate(
-    //@Param("idTarjetaServicio") idTarjetaServicio: number,
-    @Body() updateValoracionServicioDto: UpdateValoracionServicioDto,
-  ) {
+  createOrUpdate(@Body() updateValoracionServicioDto: UpdateValoracionServicioDto,@Req() req) {
+    const token = req.headers.authorization;
+    
+    console.log(token);
+    if (!token) {
+      throw new UnauthorizedException('Token no proporcionado');
+    }
+    try {
+      const decodedToken = jwt.verify(token, "clave_secreta");  //obtener de lugar seguro                
+      const ObjetoL = JSON.parse(JSON.stringify(jwt.decode(token)));
+      if (ObjetoL.tipo === 0) {
+        console.log(ObjetoL.tipo);
+        throw new UnauthorizedException('Error , no tiene privilegios');
+      }
+    } catch (err) {
+      throw new UnauthorizedException('Error al crear la valoracion'+err);
+      console.error(err);
+    }   
     return this.valoracionServicioService.createOrUpdate(
       updateValoracionServicioDto,
     );
   }
+
+  
 
   @Delete(":id")
   remove(@Param("id") id: string) {

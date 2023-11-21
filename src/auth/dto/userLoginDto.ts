@@ -4,7 +4,10 @@ export class UserLoginDto{
     public correo:string;
     public nombre:string;
     public mensaje:string;
-    public tipo:number;
+    public tipo: number;
+    public idUsuario: number;
+  
+  
 
     constructor( 
         token:string,
@@ -12,14 +15,16 @@ export class UserLoginDto{
         nombre:string,
         succes:boolean,
         mensaje:string,
-        tipo:number
+        tipo: number,
+        idUsuario: number
       ){
         this.token=token;
         this.correo=correo;
         this.nombre=nombre;
         this.succes=succes;
         this.mensaje=mensaje;
-        this.tipo=tipo;
+        this.tipo = tipo;
+        this.idUsuario=idUsuario
       }
       
 }

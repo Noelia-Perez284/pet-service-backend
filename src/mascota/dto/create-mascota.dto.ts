@@ -1,7 +1,24 @@
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+
 export class CreateMascotaDto {
+
+    @IsString()
+    @IsNotEmpty()
     nombre:string;
+    
+    @IsNotEmpty()
+    @IsString()
     tipo:string;
+
+    @IsString()
+    @IsNotEmpty()
     libreta:string;
-    foto:string;
-    duenioIdUsuario:number;
+
+    @IsString()
+    foto: string;
+
+    @IsNotEmpty()
+    duenioIdUsuario: number;
+    
+    tipoUsuario: number;
 }
