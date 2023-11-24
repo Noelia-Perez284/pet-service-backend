@@ -57,14 +57,14 @@ export class ValoracionServicioController {
       throw new UnauthorizedException('Token no proporcionado');
     }
     try {
-      const decodedToken = jwt.verify(token, "clave_secreta");  //obtener de lugar seguro                
+      const decodedToken = jwt.verify(token, "12345678");  //obtener de lugar seguro 
       const ObjetoL = JSON.parse(JSON.stringify(jwt.decode(token)));
       if (ObjetoL.tipo === 0) {
         console.log(ObjetoL.tipo);
         throw new UnauthorizedException('Error , no tiene privilegios');
       }
     } catch (err) {
-      throw new UnauthorizedException('Error al crear la valoracion'+err);
+      throw new UnauthorizedException('Error al crear la valoracion'+ err);
       console.error(err);
     }   
     return this.valoracionServicioService.createOrUpdate(

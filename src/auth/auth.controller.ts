@@ -9,6 +9,7 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
+    
     console.log(JSON.stringify(loginDto))
     try {
       var respuesta = await this.authService.login(loginDto);
