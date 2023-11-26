@@ -4,9 +4,10 @@ import { PerdidosYencontradosController } from './perdidos-yencontrados.controll
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PerdidosYencontrado } from './entities/perdidos-yencontrado.entity';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
+import { UsuarioModule } from 'src/usuario/usuario.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PerdidosYencontrado, Usuario])],
+  imports: [TypeOrmModule.forFeature([PerdidosYencontrado, Usuario]), UsuarioModule],
   controllers: [PerdidosYencontradosController],
   providers: [PerdidosYencontradoService]
 })
