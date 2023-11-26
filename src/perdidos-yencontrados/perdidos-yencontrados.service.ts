@@ -4,17 +4,23 @@ import { UpdatePerdidosYencontradoDto } from './dto/update-perdidos-yencontrado.
 import { PerdidosYencontrado } from './entities/perdidos-yencontrado.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UsuarioService } from 'src/usuario/usuario.service';
 
 @Injectable()
 export class PerdidosYencontradoService {constructor(
   @InjectRepository(PerdidosYencontrado)
   private readonly perdidosYencontradoRepository: Repository<PerdidosYencontrado>,
+  private usuarioService: UsuarioService,
 ) {}
 
-create(perdidosYencontradoDto: CreatePerdidosYencontradoDto) {
-  const c = this.perdidosYencontradoRepository.create(perdidosYencontradoDto);
-  return this.perdidosYencontradoRepository.save(c);
-}
+  async create(perdidosYencontradoDto: CreatePerdidosYencontradoDto) {
+  
+    const contactoUsuario = await this.usuarioService.findOne(perdidosYencontradoDto.contactoUsuarioIdUsuario);
+    const c = this.perdidosYencontradoRepository.create(perdidosYencontradoDto);
+    c.contactoUsuario = contactoUsuario;
+    
+    return this.perdidosYencontradoRepository.save(c);
+  }
 
 findAll(): Promise<PerdidosYencontrado[]> {
   return this.perdidosYencontradoRepository.find();

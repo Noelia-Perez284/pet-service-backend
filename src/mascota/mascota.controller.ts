@@ -44,7 +44,7 @@ export class MascotaController {
       throw new UnauthorizedException('Token no proporcionado');
     }
     try {
-      const decodedToken = jwt.verify(token, "clave_secreta");  //obtener de lugar seguro                
+      const decodedToken = jwt.verify(token, "12345678");  //obtener de lugar seguro                
       const ObjetoL = JSON.parse(JSON.stringify(jwt.decode(token)));  
   if (ObjetoL.tipo === 0) {
     throw new UnauthorizedException('Error , no tiene privilegios');
